@@ -15,6 +15,7 @@ import cv2
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import os
 from keras.utils.np_utils import to_categorical
 from skimage.transform import rotate
 from sklearn.utils import shuffle
@@ -137,7 +138,10 @@ class DataGenerator:
                     x_batch.append(img)
 
                     image_name = self.train_files[idx].split("/")
-                    label = unique_labels_mapping[train_dict[str(image_name[-1])]]
+                    image_name_nopath = str(os.path.basename(image_name[2]))
+
+                    label = unique_labels_mapping[train_dict[image_name_nopath]]
+
                     label = get_one_hot_encoded_mask(label, total_classes)
                     y_batch.append(label)
 
@@ -176,7 +180,9 @@ class DataGenerator:
                     x_batch.append(img)
 
                     image_name = self.valid_files[idx].split("/")
-                    label = unique_labels_mapping[train_dict[str(image_name[-1])]]
+                    image_name_nopath = str(os.path.basename(image_name[2]))
+
+                    label = unique_labels_mapping[train_dict[image_name_nopath]]
                     label = get_one_hot_encoded_mask(label, total_classes)
                     y_batch.append(label)
 
